@@ -1,0 +1,79 @@
+﻿@model IEnumerable<dynamic>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Product List</title>
+    <link rel="stylesheet" href="/css/homeindex.css">
+    <script src="/js/homeindex.js" defer></script>
+</head>
+<body>
+    <h1>Product List</h1>
+
+    <table>
+        <tr>
+            <th>Line Number</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Description</th>
+            <th>Stock Quantity</th>
+            <th class="extraTD">Actions</th>
+        </tr>
+        @{
+            int lineNumber = 1;
+        }
+        @foreach (var item in Model)
+        {
+            <tr>
+                @*<td>@item.ProductID</td>*@
+                <td>@lineNumber</td>
+                <td>@item.Name</td>
+                <td>@item.Price</td>
+                <td>@item.Description</td>
+                <td>@item.StockQuantity</td>
+                <td class="extraTD">
+                    @Html.ActionLink("Delete", "Delete", "Home", new { @item.ProductID })
+                </td>
+            </tr>
+            lineNumber++;
+        }
+    </table>
+
+    @using (Html.BeginForm("AddProduct", "Home", FormMethod.Post, new { id = "productForm" }))
+        {
+        <h1>Add a new product</h1>
+        <h2>Product Infomation:<span class="red">*</span></h2>
+        <table>
+            <tr>
+                <td class="Category">Name:</td>
+                <td>@Html.TextBox("ProductName", null, new { placeholder = "Enter Product Name" })</td>
+                <td class="tips"><p class="red" id="nameP">*</p></td>
+            </tr>
+            <tr>
+                <td class="Category">Price:</td>
+                <td>@Html.TextBox("Price", null, new { placeholder = "Only a number is expected" })</td>
+                <td class="tips"><p class="red" id="priceP">*</p></td>
+            </tr>
+            <tr>
+                <td class="Category">Description:</td>
+                <td>@Html.TextBox("Description", null, new { placeholder = "Enter Product Description" })</td>
+                <td class="tips"><p class="red" id="desP">*</p></td>
+            </tr>
+            <tr>
+                <td class="Category">StockQuantity:</td>
+                <td>@Html.TextBox("Quantity", null, new { placeholder = "Only a number is expected" })</td>
+                <td class="tips"><p class="red" id="quantityP">*</p></td>
+            </tr>
+        </table>
+        <div class="flexEnd">
+            <button type="submit">Add</button>
+            <button type="reset">Reset</button>
+        </div>
+        }
+    </body>
+</html>
